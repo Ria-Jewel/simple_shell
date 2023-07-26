@@ -11,6 +11,7 @@ void run_child(char **args, char *str, char **env, int count)
 {
 	int p_id = 0, wstatus = 0, werror = 0;
 
+	/* Fork a new process */
 	p_id = fork();
 	if (p_id == -1)
 	{
@@ -22,8 +23,9 @@ void run_child(char **args, char *str, char **env, int count)
 		run_exe(args, str, env, count);
 		free_safe(args);
 	}
-	else
+	else /* Parent process */
 	{
+		/* Wait for the child process to complete */
 		werror = waitpid(p_id, &wstatus, 0);
 		if (werror == -1)
 		{
